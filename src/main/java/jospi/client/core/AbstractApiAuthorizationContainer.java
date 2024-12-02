@@ -9,11 +9,13 @@ import lombok.Setter;
 public final class AbstractApiAuthorizationContainer {
     private AbstractApiAuthorization instance;
 
-    private AbstractApiAuthorizationContainer(AbstractApiAuthorization instance) {
-        this.instance = instance;
+    private AbstractApiAuthorizationContainer(
+            final AbstractApiAuthorization authorization) {
+        this.instance = authorization;
     }
 
-    protected static AbstractApiAuthorizationContainer newInstance(AbstractApiAuthorization instance) {
-        return new AbstractApiAuthorizationContainer(instance);
+    protected static AbstractApiAuthorizationContainer newInstance(
+            final AbstractApiAuthorization authorization) {
+        return new AbstractApiAuthorizationContainer(authorization);
     }
 }
