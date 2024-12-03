@@ -45,6 +45,5 @@ local.properties
 
 ### NPM (It sucks) ###
 node_modules
-package-lock.json
-package.json
+*.json
 
