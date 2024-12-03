@@ -41,3 +41,10 @@ local.properties
 /nbdist/
 /.nb-gradle/
 /build/
+
+
+### NPM (It sucks) ###
+node_modules
+package-lock.json
+package.json
+

@@ -1,4 +1,3 @@
-
 # Jospi
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -9,13 +8,14 @@
 
 A simple, in-development async wrapper for the osu! API v2
 
-*Note: As of current, only Java version 1.8 is supported*
+_Note: As of current, only Java version 1.8 is supported_
 
 # Maven
 
 Note that this project is still in development, so it will be expected that some of the features may not work as intended.
 
 To import using Maven:
+
 ```
 <dependency>
     <groupId>io.github.wyvrtn</groupId>
@@ -27,6 +27,7 @@ To import using Maven:
 # Features
 
 Currently, I'm ahead of minisbett in feature implementation
+
 ```
 Beatmap Packs (100% 2/2)
   [✓] /beatmaps/packs
