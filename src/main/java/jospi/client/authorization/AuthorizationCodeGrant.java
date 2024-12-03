@@ -26,13 +26,7 @@ public class AuthorizationCodeGrant extends AbstractApiAuthorization {
 
     protected void authorizationFlow(StatefulHttpServiceProvider svc) {
     	String authBody = toFormUrl(authorizationBody);
-		AuthorizationCodeResponse acResponse = svc.exchangeCode(authBody);
-		acResponse.validation();
-		setAccessToken(acResponse.getAccessToken());
-		setExpirationDate(OffsetDateTime.now(ZoneId.systemDefault())
-			.plusSeconds(acResponse.getExpiresIn() - 30L /** Leniency */));
-		refreshToken = acResponse.getRefreshToken();
-		setStatus(true);
+		processResponse(svc.exchangeCode(authBody));
     }
 
 	protected void refreshAccessToken(StatefulHttpServiceProvider svc) {
@@ -42,11 +36,14 @@ public class AuthorizationCodeGrant extends AbstractApiAuthorization {
 		authorizationBody.put("grant_type", "refresh_token");
 		authorizationBody.put("refresh_token", refreshToken);
 		String authBody = toFormUrl(authorizationBody);
-		AuthorizationCodeResponse acResponse = (AuthorizationCodeResponse) svc.requestNewToken(authBody);
-		acResponse.validation();
-		setAccessToken(acResponse.getAccessToken());
+		processResponse((AuthorizationCodeResponse) svc.requestNewToken(authBody));
+	}
+
+	private void processResponse(AuthorizationCodeResponse response) {
+		response.validation();
+		setAccessToken(response.getAccessToken());
 		setExpirationDate(OffsetDateTime.now(ZoneId.systemDefault())
-			.plusSeconds(acResponse.getExpiresIn() - 30L /** Leniency */));
-		refreshToken = acResponse.getRefreshToken();
+			.plusSeconds(response.getExpiresIn() - 30L /** Leniency */));
+		refreshToken = response.getRefreshToken();
 	}
 }

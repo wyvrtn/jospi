@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -39,16 +40,7 @@ public final class OsuApiClientInternalBlockingStatefulHttpServiceProvider exten
 		request.setEntity(new StringEntity(authBody, ContentType.APPLICATION_FORM_URLENCODED));
 		request.setHeader(HttpHeaders.ACCEPT, "application/json");
 		request.setHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
-		T response = null;
-		try {
-			response = httpClient.execute(request, httpResponse -> {
-				String content = readInputStream(httpResponse.getEntity().getContent());
-				ObjectMapper mapper = new ObjectMapper();
-				return mapper.readValue(content, new TypeReference<T>(){});
-			});
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		T response = simpleJsonRequest(request);
 		return Objects.requireNonNull(response, "An error occured while requesting a new access token. (response is null)");
 	}
 
@@ -57,17 +49,26 @@ public final class OsuApiClientInternalBlockingStatefulHttpServiceProvider exten
 		request.setHeader(HttpHeaders.ACCEPT, "application/json");
 		request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 		request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + authorization.getInstance().getAccessToken());
+		T response = simpleJsonRequest(request);
+		return Objects.requireNonNull(response, "null object response");
+	}
+
+	private <T> T simpleJsonRequest(HttpRequest request) {
+		return simpleJsonRequest(request, httpResponse -> {
+			String content = readInputStream(httpResponse.getEntity().getContent());
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(content, new TypeReference<T>(){});
+		});
+	}
+
+	private <T> T simpleJsonRequest(HttpRequest request, HttpClientResponseHandler<? extends T> responseHandler) {
 		T response = null;
 		try {
-			response = httpClient.execute(request, httpResponse -> {
-				String content = readInputStream(httpResponse.getEntity().getContent());
-				ObjectMapper mapper = new ObjectMapper();
-				return mapper.readValue(content, new TypeReference<T>(){});
-			});
+			response = httpClient.execute(request, responseHandler);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return Objects.requireNonNull(response, "null object response");
+		return response;
 	}
 	
 	private String buildUri(String... pathArgs) {
