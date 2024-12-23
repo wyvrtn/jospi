@@ -67,7 +67,7 @@ BeatmapSetExtended set = client.endpoints.getBeatmapSet(842412).get();
 
 ## Contributing
 
-Thanks for your interest in contributing to CheckStyle! Please see the
+Thanks for your interest in contributing to Jospi! Please see the
 [Contribution Guidelines](https://github.com/wyvrtn/jospi/blob/master/CONTRIBUTING.md)
 for information on how to contribute to the project. This includes creating issues, submitting pull
 requests, and setting up your development environment.
