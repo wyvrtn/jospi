@@ -38,7 +38,7 @@ To import using Maven:
 <dependency>
     <groupId>io.github.wyvrtn</groupId>
     <artifactId>jospi</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
