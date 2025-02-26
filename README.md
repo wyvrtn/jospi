@@ -42,9 +42,9 @@ To import using Maven:
 </dependency>
 ```
 
-The methods for accessing the API are provided by the `endpoints` field in the class `OsuApiClient`. When creating an instance, you must first create an instance of `ClientCredentialsGrant` or `AuthorizationCodeGrant`. `ClientCredentialsGrant` requires your client ID and client secret, both found in your [osu! settings](https://osu.ppy.sh/home/account/edit#oauth).
+The methods for accessing the API are provided by the `endpoints` field in the class `OsuApiClient`. When creating an instance, you must first create an instance of `ClientCredentialsGrant` or `AuthorizationCodeGrant`. To initialize `ClientCredentialsGrant`, provide your client ID and client secret, both found in your [osu! settings](https://osu.ppy.sh/home/account/edit#oauth). To initialize `AuthorizationCodeGrant`, provide your client ID, client secret, and your redirectUri used for and code recieved from the [authorization request endpoint](https://osu.ppy.sh/oauth/authorize), detailed in the [osu! API v2 documentation](https://osu.ppy.sh/docs/index.html#authorization-code-grant).
 
-The following is an example on how to authorize your client through Client Credentials Grant and using said client to request information on a beatmapset.
+The following is an example on how to authorize your client through Client Credentials Grant and use said client to request information on a beatmapset.
 
 ```java
 // Create an instance of ClientCredentialsGrant
